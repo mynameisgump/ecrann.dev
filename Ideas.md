@@ -15,6 +15,10 @@
 
 # Info Page
 
+# Dan Idea:
+
+- Zoom in on click
+
 # Links:
 
 - Maybe use HTML to Canvas and apply shader to screenshot?
