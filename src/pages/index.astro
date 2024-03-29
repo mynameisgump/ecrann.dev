@@ -5,13 +5,27 @@ import Card from '../components/Card.astro';
 
 <Layout title="Ethan Crann">
 	<main class="crt">
-		<h1>Ethan Crann</h1>
+		<h1 class="siteTitle">Ethan Crann</h1>
 		<div class="linkContainer">
 			<h2 class="pageLink">Info</h2>
 			<h2 class="pageLink">Projects</h2>
 			<h2 class="pageLink">Blog</h2>
 			<h2 class="pageLink">Contact</h2>
 		</div>
+		<script>
+			function handleTitleClick() {
+				console.log("Test")
+			}
+			console.log("Hello")
+
+			const title = document.querySelector('h1.siteTitle');
+			if (title){
+				title.addEventListener('click', () => {
+					handleTitleClick()
+				});
+			}
+			
+		</script>
 	</main>
 </Layout>
 
