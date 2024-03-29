@@ -6,10 +6,12 @@ import Card from '../components/Card.astro';
 <Layout title="Ethan Crann">
 	<main class="crt">
 		<h1>Ethan Crann</h1>
-		<h2>Info</h2>
-		<h2>Projects</h2>
-		<h2>Blog</h2>
-		<h2>Contact</h2>
+		<div class="linkContainer">
+			<h2 class="pageLink">Info</h2>
+			<h2 class="pageLink">Projects</h2>
+			<h2 class="pageLink">Blog</h2>
+			<h2 class="pageLink">Contact</h2>
+		</div>
 	</main>
 </Layout>
 
@@ -43,7 +45,6 @@ import Card from '../components/Card.astro';
 		font-size: 3rem;
 		font-weight: 700;
 		line-height: 1;
-		text-align: center;
 		margin-bottom: 1em;
 	}
 	@keyframes flicker {
@@ -176,6 +177,16 @@ import Card from '../components/Card.astro';
 			text-shadow: 2.6208764473832513px 0 1px rgba(0,30,255,0.5), -2.6208764473832513px 0 1px rgba(255,0,80,0.3), 0 0 3px;
 		}
 	}
+
+	@keyframes skew-x-shakeng{
+		0% { transform: skewX(-15deg); }
+		5% { transform: skewX(15deg); }
+		10% { transform: skewX(-15deg); }
+		15% { transform: skewX(15deg); }
+		20% { transform: skewX(0deg); }
+		100% { transform: skewX(0deg); }
+	}
+
 	.crt::after {
 		content: " ";
 		display: block;
@@ -205,5 +216,18 @@ import Card from '../components/Card.astro';
 	}
 	.crt {
 		animation: textShadow 1.6s infinite;
+	}
+
+	.pageLink {
+		width: fit-content;
+	}
+	.pageLink:hover {
+		animation: skew-x-shakeng 0.1s infinite;
+	}
+
+	.linkContainer {
+		display: flex;
+		flex-direction: column;
+		align-items: center;
 	}
 </style>
