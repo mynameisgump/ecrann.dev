@@ -4,7 +4,7 @@ import Card from '../components/Card.astro';
 ---
 
 <Layout title="Ethan Crann">
-	<main class="crt">
+	<main class="crt vignette">
 		<h1 class="siteTitle">Ethan Crann</h1>
 		<div class="linkContainer">
 			<div class="growDiv">
@@ -49,12 +49,16 @@ import Card from '../components/Card.astro';
 	main {
 		margin: auto;
 		padding: 1rem;
-		width: 800px;
-		max-width: calc(100% - 2rem);
+		width: 100%;
+		height: 100%;
 		color: white;
 		font-size: 20px;
 		line-height: 1.6;
 		font-family: ULTRA, sans-serif;
+		display: flex;
+		align-items: center;
+		flex-direction: column;
+		justify-content: center;
 	}
 	h1 {
 		font-size: 4rem;
@@ -247,6 +251,10 @@ import Card from '../components/Card.astro';
 	}
 	.crt {
 		animation: textShadow 1.6s infinite;
+		margin: 0;
+		padding: 0;
+		width: 100%;
+		height: 100%;
 	}
 
 	.pageLink {
@@ -268,10 +276,17 @@ import Card from '../components/Card.astro';
 		height: fit-content;
 	}
 
-
 	.linkContainer {
 		display: flex;
 		flex-direction: column;
 		align-items: center;
+	}
+
+	.vignette {
+		background-image: url(https://s3-us-west-2.amazonaws.com/s.cdpn.io/86186/crt.png);
+		@include fill;
+			background-repeat: no-repeat;
+			background-size: 100% 100%; 
+		z-index: 10000;
 	}
 </style>
