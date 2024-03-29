@@ -7,10 +7,18 @@ import Card from '../components/Card.astro';
 	<main class="crt">
 		<h1 class="siteTitle">Ethan Crann</h1>
 		<div class="linkContainer">
-			<h2 class="pageLink">Info</h2>
-			<h2 class="pageLink">Projects</h2>
-			<h2 class="pageLink">Blog</h2>
-			<h2 class="pageLink">Contact</h2>
+			<div class="growDiv">
+				<h2 class="pageLink">Info</h2>
+			</div>
+			<div class="growDiv">
+				<h2 class="pageLink">Projects</h2>
+			</div>
+			<div class="growDiv">
+				<h2 class="pageLink">Blog</h2>
+			</div>
+			<div class="growDiv">
+				<h2 class="pageLink">Contact</h2>
+			</div>
 		</div>
 		<script>
 			function handleTitleClick() {
@@ -201,6 +209,15 @@ import Card from '../components/Card.astro';
 		100% { transform: skewX(0deg); }
 	}
 
+	@keyframes grow{
+		0% { transform: scale(1); }
+		/* 5% { transform: scale(1); }
+		10% { transform: scale(1); }
+		15% { transform: scale(1); }
+		20% { transform: scale(1); } */
+		100% { transform: scale(1.1); }
+	}
+
 	.crt::after {
 		content: " ";
 		display: block;
@@ -234,10 +251,23 @@ import Card from '../components/Card.astro';
 
 	.pageLink {
 		width: fit-content;
+		margin: 0;
 	}
 	.pageLink:hover {
 		animation: skew-x-shakeng 0.1s infinite;
 	}
+	.growDiv:hover {
+		animation-name: grow;
+		animation-duration: 0.1s;
+		animation-delay: 0s;
+		animation-iteration-count: 1;
+		animation-fill-mode: forwards;
+	}
+	.growDiv {
+		width: fit-content;
+		height: fit-content;
+	}
+
 
 	.linkContainer {
 		display: flex;
