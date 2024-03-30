@@ -11,9 +11,15 @@
 - Static Tv Channel Switch
 - https://old.reddit.com/r/learnjavascript/comments/367d8y/creating_a_vhs_tear_effect/
 
--
+# General
 
-# Info Page
+- Add Resume
+
+# Projects Page
+
+- Gump's Gulch
+- Game Jam's
+- Advent of Code
 
 # Links:
 
