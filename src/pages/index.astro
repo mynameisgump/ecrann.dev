@@ -9,7 +9,7 @@ import Card from '../components/Card.astro';
 			<h1 class="siteTitle">Ethan Crann</h1>
 			<div class="linkContainer">
 				<div class="growDiv">
-					<h2 class="pageLink">Info</h2>
+					<h2 class="pageLink"><a href="/info">Info</a></h2>
 				</div>
 				<div class="growDiv">
 					<h2 class="pageLink">Projects</h2>
@@ -77,12 +77,17 @@ import Card from '../components/Card.astro';
 		line-height: 1;
 		text-align: center;
 		margin-bottom: 1em;
+		display: flex;
 	}
 	h2 {
 		font-size: 3rem;
 		font-weight: 700;
 		line-height: 1;
 		margin-bottom: 1em;
+	}
+	a {
+		color: inherit;
+		text-decoration: none;
 	}
 	@keyframes flicker {
 		0% {
@@ -266,6 +271,11 @@ import Card from '../components/Card.astro';
 		padding: 0;
 		width: 100%;
 		height: 100%;
+		display: flex;
+		align-items: center;
+		align-content: center;
+		justify-content: center;
+		flex-direction: column;
 	}
 
 	.pageLink {
