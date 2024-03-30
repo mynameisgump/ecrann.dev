@@ -1,6 +1,8 @@
 ---
 import Layout from '../layouts/Layout.astro';
 import NavLink from '../components/NavLink.astro';
+
+// Instantiate the icon with the icon function
 ---
 
 <Layout title="Ethan Crann">
@@ -8,7 +10,15 @@ import NavLink from '../components/NavLink.astro';
 		<div class="crt vignette">
 			<h1 class="siteTitle">Ethan Crann</h1>
             <p id="paragraph">
-                Contact Page is currently under construction. <br>
+                <i class="fa-solid fa-user"></i>: ecrann@protonmail.com
+                <br>
+                LinkedIn: blah
+                <br>
+                Github: blah
+                <br>
+                Instagram: blah
+                <br>
+                Steam: Blah
             </p>
             <NavLink href="/" text="return"/>
 		</div>
@@ -16,7 +26,6 @@ import NavLink from '../components/NavLink.astro';
 </Layout>
 
 <style>
-
 	@font-face {
 		font-family: 'ULTRA';
 		src: url('/fonts/VCR_OSD_MONO.ttf');
