@@ -4,36 +4,47 @@ import Card from '../components/Card.astro';
 ---
 
 <Layout title="Ethan Crann">
-	<main class="crt vignette">
-		<h1 class="siteTitle">Ethan Crann</h1>
-		<div class="linkContainer">
-			<div class="growDiv">
-				<h2 class="pageLink">Info</h2>
+	<main id="tv" class="powerWrapper">
+		<div class="crt vignette">
+			<h1 class="siteTitle">Ethan Crann</h1>
+			<div class="linkContainer">
+				<div class="growDiv">
+					<h2 class="pageLink">Info</h2>
+				</div>
+				<div class="growDiv">
+					<h2 class="pageLink">Projects</h2>
+				</div>
+				<div class="growDiv">
+					<h2 class="pageLink">Blog</h2>
+				</div>
+				<div class="growDiv">
+					<h2 class="pageLink">Contact</h2>
+				</div>
 			</div>
-			<div class="growDiv">
-				<h2 class="pageLink">Projects</h2>
-			</div>
-			<div class="growDiv">
-				<h2 class="pageLink">Blog</h2>
-			</div>
-			<div class="growDiv">
-				<h2 class="pageLink">Contact</h2>
-			</div>
-		</div>
-		<script>
-			function handleTitleClick() {
-				console.log("Test")
-			}
-			console.log("Hello")
+			<script>
+				function handleTitleClick() {
+					console.log("Test")
+				}
+				console.log("Hello")
 
-			const title = document.querySelector('h1.siteTitle');
-			if (title){
-				title.addEventListener('click', () => {
-					handleTitleClick()
-				});
-			}
-			
-		</script>
+				const title = document.querySelector('h1.siteTitle');
+				if (title){
+					title.addEventListener('click', () => {
+						reset_animation();
+					});
+				}
+
+				function reset_animation() {
+					var el = document.getElementById('tv');
+					console.log("God Why",el)
+					if (el) {
+						el.style.animation = 'none';
+						el.offsetHeight; /* trigger reflow */
+						el.style.animation = ""; 
+					}
+				}
+			</script>
+		</div>
 	</main>
 </Layout>
 
@@ -257,6 +268,7 @@ import Card from '../components/Card.astro';
 		height: 100%;
 	}
 
+
 	.pageLink {
 		width: fit-content;
 		margin: 0;
@@ -288,5 +300,49 @@ import Card from '../components/Card.astro';
 			background-repeat: no-repeat;
 			background-size: 100% 100%; 
 		z-index: 10000;
+	}
+	.powerWrapper {
+		animation: switchChannel 1s;
+		animation-fill-mode: forwards;
+		margin: 0;
+		padding: 0;
+	}
+
+	@keyframes switchChannel{
+		0%{
+			transform:scale(1,0.8) translate3d(0,0,0);
+			-webkit-filter:brightness(30);
+			filter:brightness(30);
+			opacity:1;
+		}
+		3.5%{
+			transform:scale(1,0.8) translate3d(0,100%,0);
+		}
+
+		3.6%{
+			transform:scale(1,0.8) translate3d(0,-100%,0);
+			opacity:1;
+		} 
+
+		9%{
+			transform:scale(1.3,0.6) translate3d(0,100%,0);
+			-webkit-filter:brightness(30);
+			filter:brightness(30);
+			opacity:0;
+		}
+
+		11%{
+			transform:scale(1,1) translate3d(0,0,0);
+			-webkit-filter:contrast(0) brightness(0) ;
+			filter:contrast(0) brightness(0);
+			opacity:0;
+		}
+
+		100%{
+			transform:scale(1,1) translate3d(0,0,0);
+			-webkit-filter:contrast(1) brightness(1.2) saturate(1.3);
+			filter:contrast(1) brightness(1.2) saturate(1.3);
+			opacity:1;
+		}
 	}
 </style>
