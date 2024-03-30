@@ -216,12 +216,12 @@ import Card from '../components/Card.astro';
 	}
 
 	@keyframes skew-x-shakeng{
-		0% { transform: skewX(-15deg); }
-		5% { transform: skewX(15deg); }
-		10% { transform: skewX(-15deg); }
-		15% { transform: skewX(15deg); }
-		20% { transform: skewX(0deg); }
-		100% { transform: skewX(0deg); }
+		0% { transform: skewX(-15deg) skewY(5deg); }
+		5% { transform: skewX(15deg) skewY(5deg); }
+		10% { transform: skewX(-15deg) skewY(5deg); }
+		15% { transform: skewX(15deg) skewY(5deg); }
+		20% { transform: skewX(0deg) skewY(0deg); }
+		100% { transform: skewX(0deg)skewY(0deg); }
 	}
 
 	@keyframes grow{
@@ -268,7 +268,6 @@ import Card from '../components/Card.astro';
 		height: 100%;
 	}
 
-
 	.pageLink {
 		width: fit-content;
 		margin: 0;
@@ -302,12 +301,20 @@ import Card from '../components/Card.astro';
 		z-index: 10000;
 	}
 	.powerWrapper {
-		animation: switchChannel 1s;
+		animation: switchChannel 2s;
 		animation-fill-mode: forwards;
 		margin: 0;
 		padding: 0;
 	}
 
+	@keyframes glitch {
+  		1%{
+    		transform: rotateX(10deg) skewX(90deg);
+  		}
+  		2%{
+  	 	 	transform: rotateX(0deg) skewX(0deg);
+ 	 	}
+	}
 	@keyframes switchChannel{
 		0%{
 			transform:scale(1,0.8) translate3d(0,0,0);
