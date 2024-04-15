@@ -14,6 +14,8 @@
 # General
 
 - Add Resume
+- Add Music???
+- Add Pictures??
 
 # Projects Page
 
