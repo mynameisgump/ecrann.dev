@@ -34,3 +34,8 @@
   - https://dev.to/ekeijl/retro-crt-terminal-screen-in-css-js-4afh
 - CRT Multiple Effects
   - https://codepen.io/Mobius1/embed/ZNgwbr/?theme-id=modal
+-
+
+# Cite:
+
+<a href="https://www.flaticon.com/free-icons/rubik" title="Rubik icons">Rubik icons created by Creaticca Creative Agency - Flaticon</a>
