@@ -99,17 +99,17 @@ export default function Carousel() {
     {!mobile &&
     <div className="slider-container slider-wrapper">
     <Slider {...settings}>
-      <div>
-          <ReactPlayer style={{display: "inline-block"}} playing={vid0Playing} onPlay={()=> playVideo(0)} url="https://www.cs.mun.ca/~etcrann/GameJams/CardJam.mp4" width={videoDimensions.width} height={videoDimensions.height} controls={true} />
+      <div key="cardjam">
+          <ReactPlayer style={{display: "inline-block"}} playing={vid0Playing} onPause={()=> pauseAll()} onPlay={()=> {pauseAll();playVideo(0)}} url="https://www.cs.mun.ca/~etcrann/GameJams/CardJam.mp4" width={videoDimensions.width} height={videoDimensions.height} controls={true} />
       </div>
-      <div>
-          <ReactPlayer style={{display: "inline-block"}} playing={vid1Playing} onPlay={()=> playVideo(1)} url="https://www.cs.mun.ca/~etcrann/GameJams/GumpJam.mp4" width={videoDimensions.width} height={videoDimensions.height} controls={true} />
+      <div key="gumpjam">
+          <ReactPlayer style={{display: "inline-block"}} playing={vid1Playing} onPause={()=> pauseAll()} onPlay={()=> {pauseAll();playVideo(1)}} url="https://www.cs.mun.ca/~etcrann/GameJams/GumpJam.mp4" width={videoDimensions.width} height={videoDimensions.height} controls={true} />
       </div>
-      <div>
-          <ReactPlayer style={{display: "inline-block"}} playing={vid2Playing} onPlay={()=> playVideo(2)} url="https://www.cs.mun.ca/~etcrann/GameJams/CEO.mp4" width={videoDimensions.width} height={videoDimensions.height} controls={true} />
+      <div key="ceo">
+          <ReactPlayer style={{display: "inline-block"}} playing={vid2Playing} onPause={()=> pauseAll()} onPlay={()=> {pauseAll();playVideo(2)}} url="https://www.cs.mun.ca/~etcrann/GameJams/CEO.mp4" width={videoDimensions.width} height={videoDimensions.height} controls={true} />
       </div>
-      <div>
-          <ReactPlayer style={{display: "inline-block"}} playing={vid3Playing} onPlay={()=> playVideo(3)} url="https://www.cs.mun.ca/~etcrann/GameJams/Growth.mp4" width={videoDimensions.width} height={videoDimensions.height} controls={true} />
+      <div key="growth">
+          <ReactPlayer style={{display: "inline-block"}} playing={vid3Playing} onPause={()=> pauseAll()} onPlay={()=> {pauseAll();playVideo(3)}} url="https://www.cs.mun.ca/~etcrann/GameJams/Growth.mp4" width={videoDimensions.width} height={videoDimensions.height} controls={true} />
       </div> 
     </Slider>
     </div>
