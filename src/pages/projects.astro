@@ -2,15 +2,21 @@
 import Layout from '../layouts/Layout.astro';
 import NavLink from '../components/NavLink.astro';
 import "../styles/global.css";
+import Carosel from '../react/carosel';
+
 ---
 
 <Layout title="Ethan Crann">
 	<main id="tv" class="powerWrapper">
 		<div class="crt vignette">
-			<h1 class="siteTitle">Ethan Crann</h1>
-            <p id="paragraph">
+			<h2 class="siteTitle">Demo Videos</h1>
+            <!-- <p id="paragraph">
                 Projects Page is currently under construction. <br>
-            </p>
+            </p> -->
+			<!-- <video style={{objectFit: "fill"}} width="720" height="480" controls>
+				<source src="https://www.cs.mun.ca/~etcrann/GameJams/Growth.mp4" type="video/mp4">
+			</video> -->
+			<Carosel client:only/>
             <NavLink href="/" text="return"/>
 		</div>
 	</main>
