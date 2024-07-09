@@ -1,31 +1,42 @@
-import React, {createRef, useCallback, useEffect, useRef} from "react";
+import React from "react";
 import Slider from "react-slick";
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
 import "./carosel.css";
+import ReactPlayer from 'react-player'
+import { create } from "zustand";
 
-const names = ["Growth Jam", "Gump Jam", "CEO Mindset", "Squid Jam"];
+const names = ["Squid Jam", "Gump Jam", "CEO Mindset", "Growth Jam"];
+
+type VideoStoreState = {
+  vid0Playing: boolean,
+  vid1Playing: boolean,
+  vid2Playing: boolean,
+  vid3Playing: boolean,
+  playVideo: (video: number) => void,
+  pauseAll: () => void
+}
+
+const useVideoStore = create<VideoStoreState>((set) => ({
+  vid0Playing: false,
+  vid1Playing: false,
+  vid2Playing: false,
+  vid3Playing: false,
+  pauseAll: () => set({vid0Playing: false, vid1Playing: false, vid2Playing: false, vid3Playing: false}),
+  playVideo: (video: number) => { 
+    set({vid0Playing: video == 0, vid1Playing: video == 1, vid2Playing: video == 2, vid3Playing: video == 3})
+  }
+}));
 
 
 export default function Carousel() {
-  const [lastSlide, setLastSlide] = React.useState(0);
   const [currentSlide, setCurrentSlide] = React.useState(0);
-
-
-  const pauseAllVideos = useCallback(() => {
-    (document.getElementById("vid0") as HTMLVideoElement).pause();
-    (document.getElementById("vid0") as HTMLVideoElement).currentTime = 0;
-    (document.getElementById("vid1") as HTMLVideoElement).pause();
-    (document.getElementById("vid1") as HTMLVideoElement).currentTime = 0;
-    (document.getElementById("vid2") as HTMLVideoElement).pause();
-    (document.getElementById("vid2") as HTMLVideoElement).currentTime = 0;
-    (document.getElementById("vid3") as HTMLVideoElement).pause();
-    (document.getElementById("vid3") as HTMLVideoElement).currentTime = 0;
-  },[]);
-
-  const slideAfterChange = () => {
-    pauseAllVideos();
-  };
+  const vid0Playing = useVideoStore((state) => state.vid0Playing);
+  const vid1Playing = useVideoStore((state) => state.vid1Playing);
+  const vid2Playing = useVideoStore((state) => state.vid2Playing);
+  const vid3Playing = useVideoStore((state) => state.vid3Playing);
+  const playVideo = useVideoStore((state) => state.playVideo);
+  const pauseAll = useVideoStore((state) => state.pauseAll); 
 
 
   const title = <h1 style={{margin: "20px"}}>{names[currentSlide]}</h1>
@@ -42,8 +53,10 @@ export default function Carousel() {
     centerPadding: "60px",
     speed: 500,
     slidesToShow: 1,
-    beforeChange: (current: number, next: number) => {setCurrentSlide(next);},
-    afterChange: (current: number) => {slideAfterChange();},
+    beforeChange: (current: number, next: number) => {
+      setCurrentSlide(next);
+      pauseAll();
+    },
   };
 
   let videoDimensions = {width: 720, height: 480}
@@ -86,24 +99,16 @@ export default function Carousel() {
     <div className="slider-container slider-wrapper">
     <Slider {...settings}>
       <div>
-          <video id={"vid0"} width={videoDimensions.width} height={videoDimensions.height} controls>
-            <source src="https://www.cs.mun.ca/~etcrann/GameJams/Growth.mp4" type="video/mp4"></source>
-          </video>
+          <ReactPlayer style={{display: "inline-block"}} playing={vid0Playing} onPlay={()=> playVideo(0)} url="https://www.cs.mun.ca/~etcrann/GameJams/CardJam.mp4" width={videoDimensions.width} height={videoDimensions.height} controls={true} />
       </div>
       <div>
-          <video id={"vid1"} width={videoDimensions.width} height={videoDimensions.height} controls>
-            <source src="https://www.cs.mun.ca/~etcrann/GameJams/GumpJam.mp4" type="video/mp4"></source>
-          </video>
+          <ReactPlayer style={{display: "inline-block"}} playing={vid1Playing} onPlay={()=> playVideo(1)} url="https://www.cs.mun.ca/~etcrann/GameJams/GumpJam.mp4" width={videoDimensions.width} height={videoDimensions.height} controls={true} />
       </div>
       <div>
-          <video id={"vid2"} width={videoDimensions.width} height={videoDimensions.height} controls>
-            <source src="https://www.cs.mun.ca/~etcrann/GameJams/CEO.mp4" type="video/mp4"></source>
-          </video>
+          <ReactPlayer style={{display: "inline-block"}} playing={vid2Playing} onPlay={()=> playVideo(2)} url="https://www.cs.mun.ca/~etcrann/GameJams/CEO.mp4" width={videoDimensions.width} height={videoDimensions.height} controls={true} />
       </div>
       <div>
-          <video id={"vid3"} width={videoDimensions.width} height={videoDimensions.height} controls>
-            <source src="https://www.cs.mun.ca/~etcrann/GameJams/CardJam.mp4" type="video/mp4"></source>
-          </video>
+          <ReactPlayer style={{display: "inline-block"}} playing={vid3Playing} onPlay={()=> playVideo(3)} url="https://www.cs.mun.ca/~etcrann/GameJams/Growth.mp4" width={videoDimensions.width} height={videoDimensions.height} controls={true} />
       </div> 
     </Slider>
     </div>
