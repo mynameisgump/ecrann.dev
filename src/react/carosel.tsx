@@ -1,4 +1,4 @@
-import React, {createRef, useEffect, useRef} from "react";
+import React, {createRef, useCallback, useEffect, useRef} from "react";
 import Slider from "react-slick";
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
@@ -11,19 +11,22 @@ export default function Carousel() {
   const [lastSlide, setLastSlide] = React.useState(0);
   const [currentSlide, setCurrentSlide] = React.useState(0);
 
-  const vid0 = useRef<HTMLVideoElement>(null);
-  const vid1 = useRef<HTMLVideoElement>(null);
-  const vid2 = useRef<HTMLVideoElement>(null);
-  const vid3 = useRef<HTMLVideoElement>(null);
 
-  useEffect(() => {
-    if (vid0.current !== null && vid1.current !== null && vid2.current !== null && vid3.current !== null) {
-      vid0.current.pause();
-      vid1.current.pause();
-      vid2.current.pause();
-      vid3.current.pause();
-    }
-  },[currentSlide]);
+  const pauseAllVideos = useCallback(() => {
+    (document.getElementById("vid0") as HTMLVideoElement).pause();
+    (document.getElementById("vid0") as HTMLVideoElement).currentTime = 0;
+    (document.getElementById("vid1") as HTMLVideoElement).pause();
+    (document.getElementById("vid1") as HTMLVideoElement).currentTime = 0;
+    (document.getElementById("vid2") as HTMLVideoElement).pause();
+    (document.getElementById("vid2") as HTMLVideoElement).currentTime = 0;
+    (document.getElementById("vid3") as HTMLVideoElement).pause();
+    (document.getElementById("vid3") as HTMLVideoElement).currentTime = 0;
+  },[]);
+
+  const slideAfterChange = () => {
+    pauseAllVideos();
+  };
+
 
   const title = <h1 style={{margin: "20px"}}>{names[currentSlide]}</h1>
   let mobile = false;
@@ -40,6 +43,7 @@ export default function Carousel() {
     speed: 500,
     slidesToShow: 1,
     beforeChange: (current: number, next: number) => {setCurrentSlide(next);},
+    afterChange: (current: number) => {slideAfterChange();},
   };
 
   let videoDimensions = {width: 720, height: 480}
@@ -82,22 +86,22 @@ export default function Carousel() {
     <div className="slider-container slider-wrapper">
     <Slider {...settings}>
       <div>
-          <video ref={vid0} width={videoDimensions.width} height={videoDimensions.height} controls>
+          <video id={"vid0"} width={videoDimensions.width} height={videoDimensions.height} controls>
             <source src="https://www.cs.mun.ca/~etcrann/GameJams/Growth.mp4" type="video/mp4"></source>
           </video>
       </div>
       <div>
-          <video ref={vid1} width={videoDimensions.width} height={videoDimensions.height} controls>
+          <video id={"vid1"} width={videoDimensions.width} height={videoDimensions.height} controls>
             <source src="https://www.cs.mun.ca/~etcrann/GameJams/GumpJam.mp4" type="video/mp4"></source>
           </video>
       </div>
       <div>
-          <video ref={vid2} width={videoDimensions.width} height={videoDimensions.height} controls>
+          <video id={"vid2"} width={videoDimensions.width} height={videoDimensions.height} controls>
             <source src="https://www.cs.mun.ca/~etcrann/GameJams/CEO.mp4" type="video/mp4"></source>
           </video>
       </div>
       <div>
-          <video ref={vid3} width={videoDimensions.width} height={videoDimensions.height} controls>
+          <video id={"vid3"} width={videoDimensions.width} height={videoDimensions.height} controls>
             <source src="https://www.cs.mun.ca/~etcrann/GameJams/CardJam.mp4" type="video/mp4"></source>
           </video>
       </div> 
