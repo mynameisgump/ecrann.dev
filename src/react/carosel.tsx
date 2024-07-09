@@ -6,13 +6,18 @@ import "./carosel.css";
 
 const names = ["Growth Jam", "Gump Jam", "CEO Mindset", "Squid Jam"];
 
+
 export default function Carousel() {
 
   const [currentSlide, setCurrentSlide] = React.useState(0);
   const title = <h1 style={{margin: "20px"}}>{names[currentSlide]}</h1>
+  let mobile = false;
+  if (window.matchMedia("(max-width: 768px)").matches) {
+    /* the viewport is less than 768 pixels wide */
+    mobile = true;
+  } 
 
-
-  var settings = {
+  const desktopSettings = {
     className: "center",
     adaptiveHeight: true,
     centerMode: true,
@@ -21,31 +26,62 @@ export default function Carousel() {
     slidesToShow: 1,
     beforeChange: (current: number, next: number) => setCurrentSlide(next),
   };
+  
+  const mobileSettings = {
+    className: "center",
+    adaptiveHeight: true,
+    vertical: true,
+    verticalSwiping: true,
+    speed: 500,
+    slidesToShow: 4,
+    infinite: true,
+    beforeChange: (current: number, next: number) => setCurrentSlide(next),
+  };
+  let settings = {};
+  if (mobile) {
+    settings = mobileSettings;
+  }
+  else {
+    settings = desktopSettings;
+  }
 
   return (
     <>
-    {title}
-    <div className="slider-container" style={{height: "480px", width: "1000px", display:"block", textAlign: "center", margin: 0}}>
-    <Slider {...settings}>
-      <div style={{display: "flex",justifyContent: "center", alignItems: "center"}}>
-        <video width={720} height={480} controls>
-          <source src="https://www.cs.mun.ca/~etcrann/GameJams/Growth.mp4" type="video/mp4"></source>
-        </video>
-      </div>
-      <div style={{display: "flex",justifyContent: "center", alignItems: "center"}}>
-        <video width={720} height={480} controls>
-          <source src="https://www.cs.mun.ca/~etcrann/GameJams/GumpJam.mp4" type="video/mp4"></source>
-        </video>
+
+    {!mobile && title}
+    <div className="slider-container slider-wrapper">
+    <Slider {...mobileSettings}>
+      <div>
+        <div className="video-wrapper">
+          {/* {!mobile && names[0]} */}
+          <video width={"100%"} height={"100%"} controls>
+            <source src="https://www.cs.mun.ca/~etcrann/GameJams/Growth.mp4" type="video/mp4"></source>
+          </video>
+        </div>
       </div>
       <div>
-        <video width={720} height={480} controls>
-          <source src="https://www.cs.mun.ca/~etcrann/GameJams/CEO.mp4" type="video/mp4"></source>
-        </video>
+        <div className="video-wrapper">
+          {/* {!mobile && names[1]} */}
+          <video width={"100%"} height={"100%"} controls>
+            <source src="https://www.cs.mun.ca/~etcrann/GameJams/GumpJam.mp4" type="video/mp4"></source>
+          </video>
+        </div>
       </div>
       <div>
-        <video width={720} height={480} controls>
-          <source src="https://www.cs.mun.ca/~etcrann/GameJams/CardJam.mp4" type="video/mp4"></source>
-        </video>
+        <div className="video-wrapper">
+          {/* {!mobile && names[2]} */}
+          <video width={"100%"} height={"100%"} controls>
+            <source src="https://www.cs.mun.ca/~etcrann/GameJams/CEO.mp4" type="video/mp4"></source>
+          </video>
+        </div>
+      </div>
+      <div>
+        <div className="video-wrapper">
+          {/* {!mobile && names[3]} */}
+          <video width={"100%"} height={"100%"} controls>
+            <source src="https://www.cs.mun.ca/~etcrann/GameJams/CardJam.mp4" type="video/mp4"></source>
+          </video>
+        </div>
       </div>
     </Slider>
     </div>
