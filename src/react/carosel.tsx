@@ -31,10 +31,12 @@ export default function Carousel() {
     vertical: true,
     verticalSwiping: true,
     speed: 500,
-    slidesToShow: 4,
+    slidesToShow: 3,
     infinite: true,
+    arrows: false,
     beforeChange: (current: number, next: number) => setCurrentSlide(next),
   };
+
   let settings = {};
   let videoDimensions = {width: 720, height: 480}
   if (mobile) {
@@ -42,7 +44,6 @@ export default function Carousel() {
     videoDimensions = {width: 200, height: 200}
   }
   else {
-    console.log("What?")
     settings = desktopSettings;
     videoDimensions = {width: 720, height: 480}
   }
@@ -64,20 +65,14 @@ export default function Carousel() {
           </video>
       </div>
       <div>
-        <div className="video-wrapper">
-           {/* {!mobile && names[2]}  */}
           <video width={videoDimensions.width} height={videoDimensions.height} controls>
             <source src="https://www.cs.mun.ca/~etcrann/GameJams/CEO.mp4" type="video/mp4"></source>
           </video>
-        </div>
       </div>
       <div>
-        <div className="video-wrapper">
-           {/* {!mobile && names[3]}  */}
           <video width={videoDimensions.width} height={videoDimensions.height} controls>
             <source src="https://www.cs.mun.ca/~etcrann/GameJams/CardJam.mp4" type="video/mp4"></source>
           </video>
-        </div>
       </div> 
     </Slider>
     </div>
