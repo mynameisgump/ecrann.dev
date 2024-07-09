@@ -19,7 +19,7 @@ export default function Carousel() {
     centerPadding: "60px",
     speed: 500,
     slidesToShow: 1,
-    beforeChange: (current, next) => setCurrentSlide(next),
+    beforeChange: (current: number, next: number) => setCurrentSlide(next),
   };
 
   return (
