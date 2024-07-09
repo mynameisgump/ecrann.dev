@@ -48,16 +48,13 @@ export default function Carousel() {
   } 
 
   const settings = {
-    className: "center",
-    adaptiveHeight: true,
-    centerMode: true,
-    centerPadding: "60px",
     speed: 500,
     slidesToShow: 1,
     beforeChange: (current: number, next: number) => {
       setCurrentSlide(next);
       pauseAll();
     },
+    infinite: false
   };
 
   let videoDimensions = {width: 720, height: 480}
