@@ -7,6 +7,7 @@ import ReactPlayer from 'react-player'
 import { create } from "zustand";
 
 const names = ["Squid Jam", "Gump Jam", "CEO Mindset", "Growth Jam"];
+const jamURL = [null,"https://github.com/mynameisgump/gumpjam-2023","https://github.com/mynameisgump/CEOMindsetGameJam","https://github.com/mynameisgump/Growth-Game-Jam"];
 
 type VideoStoreState = {
   vid0Playing: boolean,
@@ -38,8 +39,8 @@ export default function Carousel() {
   const playVideo = useVideoStore((state) => state.playVideo);
   const pauseAll = useVideoStore((state) => state.pauseAll); 
 
-
-  const title = <h1 style={{margin: "20px"}}>{names[currentSlide]}</h1>
+  console.log(jamURL[currentSlide])
+  const title = <h1 style={{margin: "20px"}}>{names[currentSlide]}&nbsp;{jamURL[currentSlide]&&<a href={jamURL[currentSlide] as string} target="_blank"><i className="fa-brands fa-github"></i></a>}</h1>
   let mobile = false;
   if (window.matchMedia("(max-width: 768px)").matches) {
     /* the viewport is less than 768 pixels wide */
@@ -94,7 +95,7 @@ export default function Carousel() {
 
   return (
     <>
-    {!mobile && title}
+    {!mobile && title }
     {!mobile &&
     <div className="slider-container slider-wrapper">
     <Slider {...settings}>
