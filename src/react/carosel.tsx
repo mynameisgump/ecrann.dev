@@ -28,8 +28,6 @@ export default function Carousel() {
   };
   
   const mobileSettings = {
-    className: "center",
-    adaptiveHeight: true,
     vertical: true,
     verticalSwiping: true,
     speed: 500,
@@ -38,11 +36,15 @@ export default function Carousel() {
     beforeChange: (current: number, next: number) => setCurrentSlide(next),
   };
   let settings = {};
+  let videoDimensions = {width: 720, height: 480}
   if (mobile) {
     settings = mobileSettings;
+    videoDimensions = {width: 200, height: 200}
   }
   else {
+    console.log("What?")
     settings = desktopSettings;
+    videoDimensions = {width: 720, height: 480}
   }
 
   return (
@@ -50,39 +52,33 @@ export default function Carousel() {
 
     {!mobile && title}
     <div className="slider-container slider-wrapper">
-    <Slider {...mobileSettings}>
+    <Slider {...settings}>
       <div>
-        <div className="video-wrapper">
-          {/* {!mobile && names[0]} */}
-          <video width={"100%"} height={"100%"} controls>
+          <video width={videoDimensions.width} height={videoDimensions.height} controls>
             <source src="https://www.cs.mun.ca/~etcrann/GameJams/Growth.mp4" type="video/mp4"></source>
           </video>
-        </div>
       </div>
       <div>
-        <div className="video-wrapper">
-          {/* {!mobile && names[1]} */}
-          <video width={"100%"} height={"100%"} controls>
+          <video width={videoDimensions.width} height={videoDimensions.height} controls>
             <source src="https://www.cs.mun.ca/~etcrann/GameJams/GumpJam.mp4" type="video/mp4"></source>
           </video>
-        </div>
       </div>
       <div>
         <div className="video-wrapper">
-          {/* {!mobile && names[2]} */}
-          <video width={"100%"} height={"100%"} controls>
+           {/* {!mobile && names[2]}  */}
+          <video width={videoDimensions.width} height={videoDimensions.height} controls>
             <source src="https://www.cs.mun.ca/~etcrann/GameJams/CEO.mp4" type="video/mp4"></source>
           </video>
         </div>
       </div>
       <div>
         <div className="video-wrapper">
-          {/* {!mobile && names[3]} */}
-          <video width={"100%"} height={"100%"} controls>
+           {/* {!mobile && names[3]}  */}
+          <video width={videoDimensions.width} height={videoDimensions.height} controls>
             <source src="https://www.cs.mun.ca/~etcrann/GameJams/CardJam.mp4" type="video/mp4"></source>
           </video>
         </div>
-      </div>
+      </div> 
     </Slider>
     </div>
     </>
