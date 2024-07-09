@@ -48,10 +48,35 @@ export default function Carousel() {
     videoDimensions = {width: 720, height: 480}
   }
 
+  const lazyMobile = (
+    <div style={{margin: "0px"}}>
+      <div>
+          <video width={videoDimensions.width} height={videoDimensions.height} controls>
+            <source src="https://www.cs.mun.ca/~etcrann/GameJams/Growth.mp4" type="video/mp4"></source>
+          </video>
+      </div>
+      <div>
+          <video width={videoDimensions.width} height={videoDimensions.height} controls>
+            <source src="https://www.cs.mun.ca/~etcrann/GameJams/GumpJam.mp4" type="video/mp4"></source>
+          </video>
+      </div>
+      <div>
+          <video width={videoDimensions.width} height={videoDimensions.height} controls>
+            <source src="https://www.cs.mun.ca/~etcrann/GameJams/CEO.mp4" type="video/mp4"></source>
+          </video>
+      </div>
+      <div>
+          <video width={videoDimensions.width} height={videoDimensions.height} controls>
+            <source src="https://www.cs.mun.ca/~etcrann/GameJams/CardJam.mp4" type="video/mp4"></source>
+          </video>
+      </div> 
+    </div>
+  )
+
   return (
     <>
-
     {!mobile && title}
+    {!mobile &&
     <div className="slider-container slider-wrapper">
     <Slider {...settings}>
       <div>
@@ -76,6 +101,8 @@ export default function Carousel() {
       </div> 
     </Slider>
     </div>
+    }
+    {mobile && lazyMobile }
     </>
   );
 }
