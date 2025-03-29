@@ -303,12 +303,12 @@ a {
 }
 
 .vignette {
-  background-image: url(https://s3-us-west-2.amazonaws.com/s.cdpn.io/86186/crt.png);
+  background-image: "/crt.png";
   @include fill;
   background-repeat: no-repeat;
   background-size: 100% 100%;
   z-index: 10000;
-  overflow: scroll;
+  /* overflow: scroll; */
 }
 .powerWrapper {
   animation: switchChannel 2s;
