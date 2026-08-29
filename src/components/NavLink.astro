@@ -1,10 +1,42 @@
 ---
-const { text, href, cursed = false, trueName } = Astro.props;
+const { text, href, cursed = false, dead = false, trueName, note, noteFull } = Astro.props;
 const revealed = trueName ?? text;
+// noteFull takes one line or several; several rotate while the note is live
+const noteLines: string[] = note
+	? Array.isArray(noteFull)
+		? noteFull
+		: noteFull
+			? [noteFull]
+			: [note]
+	: [];
+// the note types out, so reserve the longest line up front: ch for the glyph
+// advance plus 1px per char for letter-spacing, which ch does not cover
+const notePrompt = ">";
+const noteCh = note
+	? Math.max(note.length, ...noteLines.map((l) => l.length)) + notePrompt.length
+	: 0;
+// the box is sized for the longest line, so each state is centred inside it by
+// padding half the slack, allowing for the prompt.
+const notePad = note ? Math.max(0, (noteCh - notePrompt.length - note.length) / 2) : 0;
+// the font is monospace, so reserving the longer of the two names in ch
+// keeps the column from jumping when the label scrambles
+const glitchy = cursed || dead;
+const reserve = glitchy ? `--reserve: ${Math.max(text.length, revealed.length)}ch;` : undefined;
 ---
 
-<div class:list={["growDiv", { cursedLink: cursed }]}>
-    <h2 class="pageLink"><a href={href}><span class="linkText" data-text={text} data-name={text} data-true-name={revealed}>{text}</span></a></h2>
+<div class:list={["growDiv", { cursedLink: cursed, deadLink: dead }]}>
+    <h2 class="pageLink"><a href={href}><span class="linkText" style={reserve} data-text={text} data-name={text} data-true-name={revealed}>{text}</span></a></h2>
+    {note && (
+        <span
+            class="deadNote"
+            data-ch={noteCh}
+            style={`--note-ch: ${noteCh}; padding-left: calc(${notePad} * (1ch + 1px));`}
+        ><span class="notePrompt">{notePrompt}</span><span
+            class="noteText"
+            data-short={note}
+            data-full={JSON.stringify(noteLines)}
+        >{note}</span><span class="noteCaret" aria-hidden="true"></span></span>
+    )}
 </div>
 
 <style>
@@ -132,6 +164,160 @@ const revealed = trueName ?? text;
 		animation: cursedSliceB 0.42s steps(1) infinite;
 	}
 
+	/* ------------------------------------------------------------------ */
+	/* dead -- a channel you are not subscribed to                         */
+	/* ------------------------------------------------------------------ */
+
+	/* the band of tracking noise rolls up the label, the way a tape does */
+	@keyframes deadTracking {
+		0%, 52%  { clip-path: inset(100% 0 -12% 0); transform: translateX(0);    opacity: 0; }
+		53%      { clip-path: inset(86% 0 2% 0);    transform: translateX(-7px); opacity: 0.95; }
+		68%      { clip-path: inset(58% 0 32% 0);   transform: translateX(6px);  opacity: 0.95; }
+		82%      { clip-path: inset(26% 0 64% 0);   transform: translateX(-5px); opacity: 0.95; }
+		95%      { clip-path: inset(2% 0 90% 0);    transform: translateX(4px);  opacity: 0.9; }
+		100%     { clip-path: inset(-12% 0 100% 0); transform: translateX(0);    opacity: 0; }
+	}
+
+	@keyframes deadHum {
+		0%, 100% { opacity: 1; }
+		48%      { opacity: 0.82; }
+	}
+
+	/* horizontal sync loss. every stop is 100ms and steps(1) holds it, so this
+	   snaps between positions at ~10fps instead of sliding between them */
+	@keyframes deadJitter {
+		0%      { transform: translateX(0) scaleX(1); }
+		37.5%   { transform: translateX(-9px) scaleX(1); }
+		43.75%  { transform: translateX(5px) scaleX(1.05); }
+		50%     { transform: translateX(-3px) scaleX(1); }
+		56.25%  { transform: translateX(0) scaleX(1); }
+		75%     { transform: translateX(7px) scaleX(1); }
+		81.25%  { transform: translateX(-6px) scaleX(1.04); }
+		87.5%   { transform: translateX(2px) scaleX(1); }
+		100%    { transform: translateX(0) scaleX(1); }
+	}
+
+	/* dead things do not lunge at you -- no shake, no grow */
+	.deadLink .pageLink:hover, .deadLink .pageLink:active { animation: none; }
+	.deadLink:hover, .deadLink:active { animation: none; }
+
+	/* the note is wider than the label, so centre the label against it
+	   rather than letting it sit at the left edge of the box */
+	.deadLink {
+		display: flex;
+		flex-direction: column;
+		align-items: center;
+	}
+
+	.deadLink .linkText {
+		position: relative;
+		display: inline-block;
+		text-align: center;
+		min-width: var(--reserve);
+		white-space: pre;
+		color: #6c727a;
+		text-shadow: none;
+		animation: deadHum 2.7s ease-in-out infinite,
+			deadJitter 1.6s steps(1, end) infinite;
+	}
+
+	/* the tracking band: a brighter, offset copy of the label */
+	.deadLink .linkText::before {
+		content: attr(data-text);
+		position: absolute;
+		top: 0;
+		left: 0;
+		width: 100%;
+		color: #ffb454;
+		text-shadow: 0 0 6px rgba(255, 180, 84, 0.5);
+		pointer-events: none;
+		opacity: 0;
+		animation: deadTracking 4.2s linear infinite;
+	}
+
+	.deadLink:hover .linkText,
+	.deadLink:active .linkText {
+		color: #ffb454;
+		text-shadow: 0 0 10px rgba(255, 180, 84, 0.35);
+		animation: deadJitter 0.55s steps(1, end) infinite;
+	}
+	/* leaning on it only makes the tracking worse */
+	.deadLink:hover .linkText::before,
+	.deadLink:active .linkText::before {
+		animation-duration: 0.9s;
+	}
+
+	/* a terminal readout: fixed width, left aligned, so characters land in
+	   place instead of the line re-centring on every keystroke */
+	.deadNote {
+		display: block;
+		margin-top: 0.5em;
+		font-size: 1rem;
+		letter-spacing: 1px;
+		line-height: 1.35;
+		color: #8d939c;
+		white-space: pre;
+		text-align: left;
+		box-sizing: border-box;
+		width: calc(var(--note-ch) * 1ch + var(--note-ch) * 1px);
+		max-width: 100%;
+	}
+	.notePrompt {
+		opacity: 0.6;
+	}
+
+	.noteCaret {
+		display: inline-block;
+		width: 0.55ch;
+		height: 0.95em;
+		background: currentColor;
+		vertical-align: -0.1em;
+		margin-left: 1px;
+		opacity: 0;
+	}
+	/* the caret only shows while the line is live */
+	.deadLink:hover .noteCaret,
+	.deadLink:focus-within .noteCaret,
+	.deadLink.noteLive .noteCaret {
+		animation: caretBlink 1s steps(1, end) infinite;
+	}
+	@keyframes caretBlink {
+		0%, 50% { opacity: 1; }
+		50.01%, 100% { opacity: 0; }
+	}
+	.deadLink:hover .deadNote,
+	.deadLink:active .deadNote {
+		color: #b9906a;
+	}
+
+	/* refused. a hard horizontal slam, like the set rejecting the channel */
+	@keyframes deniedShake {
+		0%   { transform: translateX(-15px); }
+		12%  { transform: translateX(13px); }
+		24%  { transform: translateX(-10px); }
+		36%  { transform: translateX(11px); }
+		48%  { transform: translateX(-6px); }
+		60%  { transform: translateX(7px); }
+		72%  { transform: translateX(-4px); }
+		84%  { transform: translateX(4px); }
+		100% { transform: translateX(-2px); }
+	}
+
+	.deadLink.denied .linkText,
+	.deadLink.denied:hover .linkText {
+		color: #ff7a2f;
+		text-shadow: 0 0 16px rgba(255, 122, 47, 0.8);
+		animation: deniedShake 0.5s steps(1, end) infinite;
+	}
+	.deadLink.denied .linkText::before,
+	.deadLink.denied:hover .linkText::before {
+		animation-duration: 0.32s;
+	}
+	.deadLink.denied .deadNote,
+	.deadLink.denied:hover .deadNote {
+		color: #ff7a2f;
+	}
+
 	@media (prefers-reduced-motion: reduce) {
 		.cursedLink:hover .linkText,
 		.cursedLink:active .linkText,
@@ -142,11 +328,30 @@ const revealed = trueName ?? text;
 		.cursedLink .linkText::after {
 			display: none;
 		}
+		.deadLink .linkText::before {
+			display: none;
+		}
+		.deadLink .linkText,
+		.deadLink:hover .linkText,
+		.deadLink:active .linkText,
+		.deadLink:hover .linkText::before,
+		.deadLink:active .linkText::before,
+		.deadLink.denied .linkText,
+		.deadLink.denied:hover .linkText,
+		.deadLink.denied .linkText::before,
+		.deadLink:hover .noteCaret,
+		.deadLink:focus-within .noteCaret,
+		.deadLink.noteLive .noteCaret {
+			animation: none;
+		}
 	}
 
 	@media (max-width: 600px) {
 		h2 {
 			font-size: 2rem;
+		}
+		.deadNote {
+			font-size: 0.68rem;
 		}
 	}
 </style>
@@ -198,7 +403,169 @@ const revealed = trueName ?? text;
 		tick();
 	}
 
-	document.querySelectorAll<HTMLElement>(".cursedLink").forEach((link) => {
+	// ---------------------------------------------------------------------
+	// a scrambled channel does not open. the link itself refuses you.
+	// "ACCESS DENIED" is exactly as long as "403 forbidden", which is what
+	// --reserve is already sized to, so nothing moves.
+	// ---------------------------------------------------------------------
+	const DENIED = "ACCESS DENIED";
+	const HOLD_MS = 1100;
+
+	const typeTimers = new WeakMap<HTMLElement, number>();
+
+	// terminal-style typing: erase back to the common prefix, then type forward
+	function typewriter(el: HTMLElement, target: string, onGrow?: () => void) {
+		const timers = typeTimers.get(el);
+		if (timers) clearTimeout(timers);
+		let grown = false;
+
+		const settle = () => {
+			const cur = el.textContent ?? "";
+			if (cur === target) {
+				typeTimers.delete(el);
+				return;
+			}
+			let shared = 0;
+			while (shared < cur.length && shared < target.length && cur[shared] === target[shared]) {
+				shared++;
+			}
+			let next: string;
+			let wait: number;
+			if (cur.length > shared) {
+				next = cur.slice(0, -1);
+				wait = 14; // erasing is quicker than typing, as on a terminal
+			} else {
+				// erasing is done; shift to where the finished line will sit
+				if (!grown) {
+					grown = true;
+					onGrow?.();
+				}
+				next = target.slice(0, cur.length + 1);
+				wait = 26 + rand(18);
+			}
+			el.textContent = next;
+			typeTimers.set(el, setTimeout(settle, wait));
+		};
+		settle();
+	}
+
+
+	document.querySelectorAll<HTMLElement>(".deadLink").forEach((link) => {
+		const anchor = link.querySelector<HTMLAnchorElement>("a");
+		const label = link.querySelector<HTMLElement>(".linkText");
+		const noteText = link.querySelector<HTMLElement>(".noteText");
+		if (!anchor || !label) return;
+
+		const name = label.dataset.name ?? label.textContent ?? "";
+		let denying = false;
+		let revertTimer = 0;
+
+		const short = noteText?.dataset.short ?? "";
+		let lines: string[] = [];
+		try {
+			lines = JSON.parse(noteText?.dataset.full ?? "[]");
+		} catch {
+			lines = [];
+		}
+		const note = link.querySelector<HTMLElement>(".deadNote");
+		// how long each line stays up before the next one types. the floor is
+		// roughly the typing cost of the longest line (~1.4s at 30 chars:
+		// 14ms per char erasing, ~35ms per char typing) -- go below that and
+		// a line gets wiped before it finishes landing.
+		const ROTATE_MS = 2600;
+		let rotateTimer = 0;
+
+		const promptLen =
+			link.querySelector<HTMLElement>(".notePrompt")?.textContent?.length ?? 0;
+
+		function centreNote(len: number) {
+			if (!note) return;
+			const total = Number(note.dataset.ch ?? 0);
+			const pad = Math.max(0, (total - promptLen - len) / 2);
+			note.style.paddingLeft = `calc(${pad} * (1ch + 1px))`;
+		}
+
+		function writeNote(target: string) {
+			if (!noteText) return;
+			if (reduced) {
+				centreNote(target.length);
+				noteText.textContent = target;
+			} else {
+				typewriter(noteText, target, () => centreNote(target.length));
+			}
+		}
+
+		// step through the lines, looping, for as long as the note is live
+		function showNote(i = 0) {
+			if (!noteText || !lines.length) return;
+			clearTimeout(revertTimer);
+			clearTimeout(rotateTimer);
+			link.classList.add("noteLive");
+			writeNote(lines[i % lines.length]);
+			if (lines.length > 1) {
+				rotateTimer = setTimeout(() => showNote(i + 1), ROTATE_MS);
+			}
+		}
+
+		function revertNote() {
+			clearTimeout(rotateTimer);
+			clearTimeout(revertTimer);
+			link.classList.remove("noteLive");
+			if (!noteText) return;
+			writeNote(short);
+		}
+
+		// touch devices never fire pointerleave, so a reveal there has to
+		// schedule its own way back to the first line
+		function scheduleRevert(delay: number) {
+			clearTimeout(revertTimer);
+			revertTimer = setTimeout(revertNote, delay);
+		}
+
+		if (noteText && lines.length && lines[0] !== short) {
+			link.addEventListener("pointerenter", () => showNote());
+			link.addEventListener("focusin", () => showNote());
+			link.addEventListener("pointerleave", revertNote);
+			link.addEventListener("focusout", revertNote);
+		}
+
+		anchor.addEventListener("click", (e) => {
+			// let cmd/ctrl/middle-click through, so the page stays reachable
+			if (e.button !== 0 || e.metaKey || e.ctrlKey || e.shiftKey || e.altKey) return;
+			e.preventDefault();
+			if (denying) return;
+			denying = true;
+
+			link.classList.add("denied");
+			showNote();
+
+			if (reduced) {
+				label.textContent = DENIED;
+				label.dataset.text = DENIED;
+			} else {
+				scramble(label, DENIED);
+			}
+
+			setTimeout(() => {
+				link.classList.remove("denied");
+				const back = link.matches(":hover") ? (label.dataset.trueName ?? name) : name;
+				if (reduced) {
+					label.textContent = back;
+					label.dataset.text = back;
+				} else {
+					scramble(label, back);
+				}
+				denying = false;
+				// long enough to actually read it on a phone, where there is
+				// no pointerleave to trigger the revert
+				if (!link.matches(":hover")) {
+					scheduleRevert(lines.length * ROTATE_MS + 800);
+				}
+			}, HOLD_MS);
+		});
+	});
+
+	document.querySelectorAll<HTMLElement>(".cursedLink, .deadLink").forEach((link) => {
 		const label = link.querySelector<HTMLElement>(".linkText");
 		if (!label) return;
 
@@ -213,7 +580,7 @@ const revealed = trueName ?? text;
 		}
 
 		// it does this on its own, whether or not anybody is looking
-		if (!reduced) {
+		if (!reduced && link.classList.contains("cursedLink")) {
 			const crt = document.querySelector(".crt");
 			const possess = () => {
 				link.classList.add("twitch");
