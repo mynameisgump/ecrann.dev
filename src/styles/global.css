@@ -374,3 +374,19 @@ a {
     font-size: 1rem;
   }
 }
+
+/* the set notices when something cursed is on screen */
+.crt.possessed::before {
+  background: linear-gradient(rgba(30, 0, 0, 0) 50%, rgba(45, 0, 0, 0.35) 50%),
+    linear-gradient(
+      90deg,
+      rgba(255, 0, 0, 0.2),
+      rgba(0, 255, 0, 0.02),
+      rgba(0, 0, 255, 0.06)
+    );
+  background-size: 100% 2px, 3px 100%;
+}
+.crt.possessed::after {
+  background: rgba(70, 0, 0, 0.25);
+  animation: flicker 0.07s infinite;
+}

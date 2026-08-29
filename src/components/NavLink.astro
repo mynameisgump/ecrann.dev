@@ -1,9 +1,10 @@
 ---
-const { text,href } = Astro.props;
+const { text, href, cursed = false, trueName } = Astro.props;
+const revealed = trueName ?? text;
 ---
 
-<div class="growDiv">
-    <h2 class="pageLink"><a href={href}>{text}</a></h2>
+<div class:list={["growDiv", { cursedLink: cursed }]}>
+    <h2 class="pageLink"><a href={href}><span class="linkText" data-text={text} data-name={text} data-true-name={revealed}>{text}</span></a></h2>
 </div>
 
 <style>
@@ -56,9 +57,177 @@ const { text,href } = Astro.props;
 		height: fit-content;
 	}
 
+	/* ------------------------------------------------------------------ */
+	/* cursed                                                              */
+	/* ------------------------------------------------------------------ */
+
+	@keyframes cursedJitter {
+		0%   { transform: translate(0, 0)     skewX(0deg); }
+		25%  { transform: translate(-1px, 1px) skewX(-5deg); }
+		50%  { transform: translate(1px, -1px) skewX(4deg); }
+		75%  { transform: translate(-1px, 0)   skewX(-2deg); }
+		100% { transform: translate(1px, 1px)  skewX(3deg); }
+	}
+
+	@keyframes cursedSliceA {
+		0%   { clip-path: inset(10% 0 78% 0); transform: translate(-4px, -1px); }
+		20%  { clip-path: inset(60% 0 18% 0); transform: translate(4px, 1px); }
+		40%  { clip-path: inset(32% 0 55% 0); transform: translate(-3px, 2px); }
+		60%  { clip-path: inset(80% 0 4% 0);  transform: translate(3px, -2px); }
+		80%  { clip-path: inset(4% 0 88% 0);  transform: translate(-4px, 1px); }
+		100% { clip-path: inset(48% 0 40% 0); transform: translate(4px, -1px); }
+	}
+
+	@keyframes cursedSliceB {
+		0%   { clip-path: inset(70% 0 12% 0); transform: translate(4px, 1px); }
+		20%  { clip-path: inset(18% 0 66% 0); transform: translate(-4px, -1px); }
+		40%  { clip-path: inset(44% 0 38% 0); transform: translate(3px, -2px); }
+		60%  { clip-path: inset(6% 0 84% 0);  transform: translate(-3px, 2px); }
+		80%  { clip-path: inset(86% 0 2% 0);  transform: translate(4px, -1px); }
+		100% { clip-path: inset(28% 0 60% 0); transform: translate(-4px, 1px); }
+	}
+
+	/* the cursed one refuses the normal shake -- it has its own ideas */
+	.cursedLink .pageLink:hover, .cursedLink .pageLink:active {
+		animation: none;
+	}
+
+	.cursedLink .linkText {
+		position: relative;
+		display: inline-block;
+		white-space: pre;
+	}
+
+	.cursedLink .linkText::before,
+	.cursedLink .linkText::after {
+		content: attr(data-text);
+		position: absolute;
+		top: 0;
+		left: 0;
+		width: 100%;
+		opacity: 0;
+		pointer-events: none;
+	}
+	.cursedLink .linkText::before { color: #00fff0; }
+	.cursedLink .linkText::after  { color: #ff004c; }
+
+	.cursedLink:hover .linkText,
+	.cursedLink:active .linkText,
+	.cursedLink.twitch .linkText {
+		color: #ff1e1e;
+		text-shadow: 0 0 8px rgba(255, 0, 0, 0.9), 0 0 24px rgba(255, 0, 0, 0.45);
+		animation: cursedJitter 0.18s steps(2) infinite;
+	}
+
+	.cursedLink:hover .linkText::before,
+	.cursedLink:active .linkText::before,
+	.cursedLink.twitch .linkText::before {
+		opacity: 0.85;
+		animation: cursedSliceA 0.5s steps(1) infinite;
+	}
+	.cursedLink:hover .linkText::after,
+	.cursedLink:active .linkText::after,
+	.cursedLink.twitch .linkText::after {
+		opacity: 0.85;
+		animation: cursedSliceB 0.42s steps(1) infinite;
+	}
+
+	@media (prefers-reduced-motion: reduce) {
+		.cursedLink:hover .linkText,
+		.cursedLink:active .linkText,
+		.cursedLink.twitch .linkText {
+			animation: none;
+		}
+		.cursedLink .linkText::before,
+		.cursedLink .linkText::after {
+			display: none;
+		}
+	}
+
 	@media (max-width: 600px) {
 		h2 {
 			font-size: 2rem;
 		}
 	}
 </style>
+
+<script>
+	const GLYPHS = "▓▒░█◆◇†‡∴¥Ξ§Ω×/\\|_=+*#%@&$?!<>";
+	const reduced = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+	const rand = (n: number) => Math.floor(Math.random() * n);
+
+	type Slot = { to: string; start: number; end: number; char: string };
+
+	function scramble(el: HTMLElement, target: string) {
+		const from = el.textContent ?? "";
+		const len = Math.max(from.length, target.length);
+		const slots: Slot[] = [];
+		for (let i = 0; i < len; i++) {
+			const start = rand(10);
+			slots.push({ to: target[i] ?? "", start, end: start + 5 + rand(12), char: "" });
+		}
+
+		const prev = Number(el.dataset.raf);
+		if (prev) cancelAnimationFrame(prev);
+
+		let frame = 0;
+		const tick = () => {
+			let out = "";
+			let done = 0;
+			for (let i = 0; i < slots.length; i++) {
+				const s = slots[i];
+				if (frame >= s.end) {
+					done++;
+					out += s.to;
+				} else if (frame >= s.start) {
+					if (!s.char || Math.random() < 0.32) s.char = GLYPHS[rand(GLYPHS.length)];
+					out += s.char;
+				} else {
+					out += from[i] ?? "";
+				}
+			}
+			el.textContent = out;
+			el.dataset.text = out;
+			frame++;
+			if (done < slots.length) {
+				el.dataset.raf = String(requestAnimationFrame(tick));
+			} else {
+				delete el.dataset.raf;
+			}
+		};
+		tick();
+	}
+
+	document.querySelectorAll<HTMLElement>(".cursedLink").forEach((link) => {
+		const label = link.querySelector<HTMLElement>(".linkText");
+		if (!label) return;
+
+		const name = label.dataset.name ?? label.textContent ?? "";
+		const trueName = label.dataset.trueName ?? name;
+
+		if (!reduced && trueName !== name) {
+			link.addEventListener("pointerenter", () => scramble(label, trueName));
+			link.addEventListener("pointerleave", () => scramble(label, name));
+			link.addEventListener("focusin", () => scramble(label, trueName));
+			link.addEventListener("focusout", () => scramble(label, name));
+		}
+
+		// it does this on its own, whether or not anybody is looking
+		if (!reduced) {
+			const crt = document.querySelector(".crt");
+			const possess = () => {
+				link.classList.add("twitch");
+				crt?.classList.add("possessed");
+				setTimeout(() => {
+					link.classList.remove("twitch");
+					if (!link.matches(":hover")) crt?.classList.remove("possessed");
+				}, 90 + rand(140));
+				setTimeout(possess, 5000 + rand(7000));
+			};
+			setTimeout(possess, 3000 + rand(5000));
+
+			link.addEventListener("pointerenter", () => crt?.classList.add("possessed"));
+			link.addEventListener("pointerleave", () => crt?.classList.remove("possessed"));
+		}
+	});
+</script>
