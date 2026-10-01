@@ -14,6 +14,11 @@ const tieBreaks: Record<string, string> = {
 	Vibes: "The Ratpture",
 };
 
+// shorter display names for itch's voting criteria
+const awardNames: Record<string, string> = {
+	"Theme Adherence (Flash Game Vibes)": "Feels Flash",
+};
+
 const gameById = new Map(jam.games.map((g) => [g.id, g]));
 
 const winners = jam.winners.map(({ award, gameIds }) => {
@@ -23,7 +28,7 @@ const winners = jam.winners.map(({ award, gameIds }) => {
 		games = games.filter((g) => g.title === pick);
 		if (!games.length) throw new Error(`tie break "${pick}" is not a ${award} winner`);
 	}
-	return { award, games };
+	return { award: awardNames[award] ?? award, games };
 });
 ---
 

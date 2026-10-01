@@ -33,7 +33,7 @@ ul {
 	display: flex;
 	align-items: center;
 	gap: 24px;
-	padding: 6px 16px 6px max(16px, calc(50% - 489px));
+	padding: 6px 16px 6px max(16px, calc(50% - 624px));
 }
 
 .logo {
@@ -81,7 +81,7 @@ ul {
 }
 
 .page {
-	max-width: 1010px;
+	max-width: 1280px;
 	margin: 0 auto;
 	padding: 16px 16px 48px;
 }
@@ -161,13 +161,18 @@ ul {
 /* winners                                                             */
 /* ------------------------------------------------------------------ */
 
+/* every box the same size: minmax(0, 1fr) stops a long award name or
+   title from widening its column, and 1fr rows keep wrapped rows level */
 .winners {
 	display: grid;
-	grid-template-columns: repeat(4, 1fr);
+	grid-template-columns: repeat(4, minmax(0, 1fr));
+	grid-auto-rows: 1fr;
 	margin-bottom: 14px;
 }
 
 .winner {
+	display: flex;
+	flex-direction: column;
 	padding: 0 4px;
 	border-left: 2px dashed #a8b0c6;
 }
@@ -188,6 +193,7 @@ ul {
 }
 
 .winGame {
+	flex: 1;
 	display: flex;
 	align-items: flex-start;
 	gap: 6px;
@@ -213,7 +219,7 @@ ul {
 		grid-template-columns: repeat(2, 1fr);
 	}
 	.winners {
-		grid-template-columns: repeat(2, 1fr);
+		grid-template-columns: repeat(2, minmax(0, 1fr));
 		row-gap: 14px;
 	}
 	.winner:nth-child(odd) {
@@ -228,7 +234,7 @@ ul {
 	.logo .tld { font-size: 16px; }
 	.featuredGrid,
 	.winners {
-		grid-template-columns: 1fr;
+		grid-template-columns: minmax(0, 1fr);
 	}
 	.winner {
 		border-left: 0;
