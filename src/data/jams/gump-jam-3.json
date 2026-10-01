@@ -1,0 +1,246 @@
+{
+	"slug": "gump-jam-3",
+	"title": "gump jam 3: Computer Lab",
+	"url": "https://itch.io/jam/gump-jam-3",
+	"entriesUrl": "https://itch.io/jam/gump-jam-3/entries",
+	"startDate": "2026-09-12 02:30:00",
+	"endDate": "2026-09-27 02:29:00",
+	"fetchedAt": "2026-10-01T13:32:22.739Z",
+	"games": [
+		{
+			"id": 5059582,
+			"title": "Battle Burrow",
+			"url": "https://marcodelrizzo.itch.io/battle-burrow",
+			"description": null,
+			"authors": [
+				"MarcoDelRizzo"
+			],
+			"cover": "https://img.itch.zone/aW1nLzMwMjkxNjA0LnBuZw==/300x240%23c/MPr4Ed.png",
+			"coverColor": null,
+			"rank": 1,
+			"score": 4.7142857142857
+		},
+		{
+			"id": 5058741,
+			"title": "Gump Grenades",
+			"url": "https://mynameisgump.itch.io/gump-grenades",
+			"description": "An industrial action platformer based on fragger",
+			"authors": [
+				"MyNameIsGump"
+			],
+			"cover": "https://img.itch.zone/aW1nLzMwMjg2MTYxLnBuZw==/300x240%23c/csbWvx.png",
+			"coverColor": "#000000",
+			"rank": 2,
+			"score": 4.5714285714286
+		},
+		{
+			"id": 5013143,
+			"title": "The Ratpture",
+			"url": "https://ezroot.itch.io/rat-rapture",
+			"description": "A rat child in a religious family worshipping the holy cheese",
+			"authors": [
+				"EZroot"
+			],
+			"cover": "https://img.itch.zone/aW1nLzMwMzA1NTExLmdpZg==/300x240%23c/V%2BSZ4t.gif",
+			"coverColor": "#070707",
+			"rank": 3,
+			"score": 4.5
+		},
+		{
+			"id": 5058499,
+			"title": "Dossier",
+			"url": "https://awln.itch.io/dossier",
+			"description": "A multiplayer deduction shooter where hints drip in one at a time, in a different order for each player.",
+			"authors": [
+				"awln"
+			],
+			"cover": "https://img.itch.zone/aW1nLzMwMjg1NDI3LnBuZw==/300x240%23c/sVIl9f.png",
+			"coverColor": "#151514",
+			"rank": 4,
+			"score": 4.2857142857143
+		},
+		{
+			"id": 5053794,
+			"title": "Tripping Hazard",
+			"url": "https://danielpower.itch.io/tripping-hazard",
+			"description": null,
+			"authors": [
+				"DanielPower"
+			],
+			"cover": "https://img.itch.zone/aW1nLzMwMjg0MTY1LnBuZw==/300x240%23c/ym3vWI.png",
+			"coverColor": "#555555",
+			"rank": 5,
+			"score": 4
+		},
+		{
+			"id": 5000404,
+			"title": "Delve Drafter",
+			"url": "https://ironarachne.itch.io/delve-drafter",
+			"description": "A game about drafting dungeons and delving them",
+			"authors": [
+				"Iron Arachne"
+			],
+			"cover": "https://img.itch.zone/aW1nLzMwMjQzMTQyLmpwZw==/300x240%23c/TOCjrF.jpg",
+			"coverColor": null,
+			"rank": 6,
+			"score": 3.8571428571429
+		},
+		{
+			"id": 5058736,
+			"title": "Rat Albert",
+			"url": "https://carsonthorne.itch.io/rat-albert",
+			"description": "3D Sokoban game with over 800 puzzles and global leaderboards",
+			"authors": [
+				"CarsonThorne"
+			],
+			"cover": "https://img.itch.zone/aW1nLzMwMjg2MTAxLnBuZw==/300x240%23c/KIZna2.png",
+			"coverColor": null,
+			"rank": 7,
+			"score": 3.7142857142857
+		},
+		{
+			"id": 5059170,
+			"title": "Defiled temple",
+			"url": "https://jerzakm.itch.io/defiled-temple",
+			"description": null,
+			"authors": [
+				"jerzakm"
+			],
+			"cover": "https://img.itch.zone/aW1nLzMwMzAzOTE0LnBuZw==/300x240%23c/wnbnfO.png",
+			"coverColor": "#193d3f",
+			"rank": 8,
+			"score": 3.6514837167011
+		},
+		{
+			"id": 5058662,
+			"title": "Project R.A.T.",
+			"url": "https://zacbatten.itch.io/project-rat",
+			"description": "Rodent. Assault. Tactics. Survive a nightmare garden with wild mutations, explosive cans, and snapping mouth traps.",
+			"authors": [
+				"zacbatten"
+			],
+			"cover": "https://img.itch.zone/aW1nLzMwMjg3MzczLnBuZw==/300x240%23c/RE%2BYnq.png",
+			"coverColor": "#080b11",
+			"rank": 9,
+			"score": 3.3333333333333
+		},
+		{
+			"id": 5047888,
+			"title": "Scrimblo Ball",
+			"url": "https://ncashin.itch.io/scrimblo-ball",
+			"description": null,
+			"authors": [
+				"ncashin"
+			],
+			"cover": "",
+			"coverColor": null,
+			"rank": 9,
+			"score": 3.3333333333333
+		},
+		{
+			"id": 5058064,
+			"title": "GeoConquer",
+			"url": "https://jmertlik.itch.io/geoconquer",
+			"description": "Hex based land conquer all game. Build out your economy, build out your defences, protect your capital.",
+			"authors": [
+				"jmertlik"
+			],
+			"cover": "https://img.itch.zone/aW1nLzMwMjgyMDI0LmpwZw==/300x240%23c/6ugzOX.jpg",
+			"coverColor": null,
+			"rank": 11,
+			"score": 3.1666666666667
+		},
+		{
+			"id": 5026935,
+			"title": "Trail Mesh Lab",
+			"url": "https://compelling-games.itch.io/trail-mesh-lab",
+			"description": null,
+			"authors": [
+				"Compelling Games"
+			],
+			"cover": "https://img.itch.zone/aW1nLzMwMDk4NDQxLnBuZw==/300x240%23c/a038GZ.png",
+			"coverColor": null,
+			"rank": 12,
+			"score": 3
+		},
+		{
+			"id": 5058641,
+			"title": "The Guessing Man [Alpha Build]",
+			"url": "https://jrumbolt.itch.io/the-guessing-man",
+			"description": null,
+			"authors": [
+				"jrumbolt"
+			],
+			"cover": "https://img.itch.zone/aW1nLzMwMjg5MTY5LmpwZw==/300x240%23c/JGZM9d.jpg",
+			"coverColor": "#eeeeee",
+			"rank": 13,
+			"score": 2.8333333333333
+		},
+		{
+			"id": 5057097,
+			"title": "Terrible Minecraft Clone",
+			"url": "https://nint8835.itch.io/terrible-minecraft-clone",
+			"description": null,
+			"authors": [
+				"nint8835"
+			],
+			"cover": "https://img.itch.zone/aW1nLzMwMjc3NzU0LnBuZw==/300x240%23c/rYmPNG.png",
+			"coverColor": null,
+			"rank": 13,
+			"score": 2.8333333333333
+		},
+		{
+			"id": 5059608,
+			"title": "Addicted To Lemonade Sip",
+			"url": "https://johnwowcool.itch.io/addicted-to-lemonade-sip",
+			"description": null,
+			"authors": [
+				"JohnWowCool"
+			],
+			"cover": "https://img.itch.zone/aW1nLzMwMjkxNTcwLnBuZw==/300x240%23c/zX524N.png",
+			"coverColor": null,
+			"rank": 15,
+			"score": 1.8856180831641
+		},
+		{
+			"id": 5000698,
+			"title": "Terminal Browser",
+			"url": "https://ebrowne7gmailcom.itch.io/terminal-browser",
+			"description": "Terminal hacking game are you quick enough",
+			"authors": [
+				"Leopold"
+			],
+			"cover": "https://img.itch.zone/aW1nLzI5OTM3NDIwLnBuZw==/300x240%23c/XRHuKC.png",
+			"coverColor": null,
+			"rank": 16,
+			"score": 1.8371173070874
+		}
+	],
+	"winners": [
+		{
+			"award": "Overall Quality",
+			"gameIds": [
+				5059582
+			]
+		},
+		{
+			"award": "Theme Adherence (Flash Game Vibes)",
+			"gameIds": [
+				5058499
+			]
+		},
+		{
+			"award": "Fun",
+			"gameIds": [
+				5058741
+			]
+		},
+		{
+			"award": "Vibes",
+			"gameIds": [
+				5058741,
+				5013143
+			]
+		}
+	]
+}
