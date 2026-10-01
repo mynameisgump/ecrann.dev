@@ -1,0 +1,96 @@
+---
+// a page out of the computer lab, circa 2005. it deliberately skips Layout:
+// Layout locks the page to the CRT (no scrolling, flex body), and this one
+// is supposed to scroll forever like the real thing did.
+
+// snapshot from itch -- refresh with `npm run fetch-jam -- gump-jam-3`
+import jam from '../../data/jams/gump-jam-3.json';
+import '../../styles/gump-jam-3.css';
+
+type Game = (typeof jam.games)[number];
+
+// first place in vibes was a tie; the hosts picked one
+const tieBreaks: Record<string, string> = {
+	Vibes: "The Ratpture",
+};
+
+const gameById = new Map(jam.games.map((g) => [g.id, g]));
+
+const winners = jam.winners.map(({ award, gameIds }) => {
+	let games = gameIds.map((id) => gameById.get(id)).filter((g): g is Game => !!g);
+	const pick = tieBreaks[award];
+	if (pick) {
+		games = games.filter((g) => g.title === pick);
+		if (!games.length) throw new Error(`tie break "${pick}" is not a ${award} winner`);
+	}
+	return { award, games };
+});
+---
+
+<!doctype html>
+<html lang="en">
+	<head>
+		<meta charset="UTF-8" />
+		<meta name="viewport" content="width=device-width" />
+		<link rel="icon" href="/FavvyOut.gif" type="image/gif" />
+		<title>{jam.title}</title>
+		<meta name="description" content={`The ${jam.games.length} games made for ${jam.title}.`} />
+		<link href="/awesome/css/fontawesome.css" rel="stylesheet" />
+		<link href="/awesome/css/solid.css" rel="stylesheet" />
+	</head>
+	<body>
+		<header class="masthead">
+			<a class="logo" href="/game-jams/gump-jam-3">
+				<span class="big">G</span>UMP<span class="big">J</span>AM<span class="num">3</span><span class="tld">.COM</span>
+			</a>
+			<p class="welcome">
+				Welcome to Gump Jam 3, the largest source of great free games made for the
+				computer lab! Arcade games, action games, puzzle games and more.
+				Updated every bell!
+			</p>
+		</header>
+		<div class="stripes"></div>
+
+		<div class="page">
+			<section class="winners">
+				{winners.map((w) => (
+					<div class="winner">
+						<h3 class="winTitle"><i class="fa-solid fa-trophy"></i> {w.award}</h3>
+						{w.games.map((g) => (
+							<div class="winGame">
+								<a class="thumb" href={g.url} style={`background-color: ${g.coverColor ?? "#555"}`} aria-hidden="true" tabindex="-1">
+									{g.cover ? <img src={g.cover} alt="" loading="lazy" /> : <i class="fa-solid fa-gamepad"></i>}
+								</a>
+								<div>
+									<a class="gameLink" href={g.url}>{g.title}</a>
+									<p class="by">by {g.authors.join(", ")}</p>
+								</div>
+							</div>
+						))}
+					</div>
+				))}
+			</section>
+
+			<section class="featuredBox">
+				<div class="featured">
+					<h2 class="boxTitle">Featured Games : {jam.games.length} Entries</h2>
+					<ul class="featuredGrid">
+						{jam.games.map((g) => (
+							<li class="featuredGame">
+								<a class="thumb" href={g.url} style={`background-color: ${g.coverColor ?? "#555"}`} aria-hidden="true" tabindex="-1">
+									{g.cover ? <img src={g.cover} alt="" loading="lazy" /> : <i class="fa-solid fa-gamepad"></i>}
+								</a>
+								<div>
+									<a class="gameLink" href={g.url}>{g.title}</a>
+									<p class="by">by {g.authors.join(", ")}</p>
+									{g.description && <p class="desc">{g.description}</p>}
+								</div>
+							</li>
+						))}
+					</ul>
+				</div>
+			</section>
+
+		</div>
+	</body>
+</html>
