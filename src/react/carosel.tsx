@@ -24,7 +24,7 @@ const useVideoStore = create<VideoStoreState>((set) => ({
   vid2Playing: false,
   vid3Playing: false,
   pauseAll: () => set({vid0Playing: false, vid1Playing: false, vid2Playing: false, vid3Playing: false}),
-  playVideo: (video: number) => { 
+  playVideo: (video: number) => {
     set({vid0Playing: video == 0, vid1Playing: video == 1, vid2Playing: video == 2, vid3Playing: video == 3})
   }
 }));
@@ -37,15 +37,14 @@ export default function Carousel() {
   const vid2Playing = useVideoStore((state) => state.vid2Playing);
   const vid3Playing = useVideoStore((state) => state.vid3Playing);
   const playVideo = useVideoStore((state) => state.playVideo);
-  const pauseAll = useVideoStore((state) => state.pauseAll); 
+  const pauseAll = useVideoStore((state) => state.pauseAll);
 
-  console.log(jamURL[currentSlide])
   const title = <h1 style={{margin: "20px"}}>{names[currentSlide]}&nbsp;{jamURL[currentSlide]&&<a href={jamURL[currentSlide] as string} target="_blank"><i className="fa-brands fa-github"></i></a>}</h1>
   let mobile = false;
   if (window.matchMedia("(max-width: 768px)").matches) {
     /* the viewport is less than 768 pixels wide */
     mobile = true;
-  } 
+  }
 
   const settings = {
     speed: 500,
@@ -86,7 +85,7 @@ export default function Carousel() {
           <video width={videoDimensions.width} height={videoDimensions.height} controls>
             <source src="https://www.cs.mun.ca/~etcrann/GameJams/CardJam.mp4" type="video/mp4"></source>
           </video>
-      </div> 
+      </div>
     </div>
   )
 
@@ -107,7 +106,7 @@ export default function Carousel() {
       </div>
       <div key="growth">
           <ReactPlayer style={{display: "inline-block"}} playing={vid3Playing} onPause={()=> pauseAll()} onPlay={()=> {pauseAll();playVideo(3)}} url="https://www.cs.mun.ca/~etcrann/GameJams/Growth.mp4" width={videoDimensions.width} height={videoDimensions.height} controls={true} />
-      </div> 
+      </div>
     </Slider>
     </div>
     }
